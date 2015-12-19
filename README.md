@@ -43,9 +43,11 @@ cp colours ~/bin/
 cp prompt.sh ~/bin/
 
 cat <<EOF > ~/.gnupg/gpg-agent.conf
+write-env-file
+enable-ssh-support
 use-standard-socket
-default-cache-ttl 600
 max-cache-ttl 7200
+default-cache-ttl 600
 pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pinentry-mac
 EOF
 
@@ -78,6 +80,16 @@ fi
 for f in ~/bin/{colours,prompt,aliases,credentials} ; do
   [ -r "${f}" ] && [ -f "${f}" ] && source "${f}"
 done
+
+f [ ! -f "${HOME}/.gpg-agent-info" ]; then
+  /usr/local/bin/gpg-agent --daemon
+fi
+
+. ${HOME}/.gpg-agent-info
+export GPG_AGENT_INFO
+export SSH_AUTH_SOCK
+export SSH_AGENT_PID
+export GPG_TTY=$(tty)
 
 export PYTHONIOENCODING="UTF-8"
 export LANG="en_US.UTF-8"
