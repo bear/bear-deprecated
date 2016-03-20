@@ -69,6 +69,8 @@ EOF
 cat <<EOF > ~/.bash_profile
 PATH=${HOME}/bin:$(brew --prefix coreutils)/libexec/gnubin:$(brew --prefix gnu-tar)/libexec/gnubin:${PATH}
 export PATH
+
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT=/usr/local/var/pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
